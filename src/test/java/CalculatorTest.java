@@ -1,36 +1,54 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class CalculatorTest {
-    //it should ask user for 2 numbers
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    @BeforeEach
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-    }
 
-    @AfterEach
-    public void restoreStreams() {
-        System.setOut(originalOut);
+    private final PrintStream standardOut = System.out;
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
+    @BeforeEach
+    public void setUp() {
+        System.setOut(new PrintStream(outputStreamCaptor));
     }
 
     @Test
-//    public void testGetNumber1Input() {
-//        Calculator.getNumber1Input();
-//        assertEquals("Enter your first number", outContent.toString());
-//
-//    }
-//    @Test
-//    public void testGetNumber1Input() {
-//        Calculator calculator = new Calculator();
-//        assertEquals("Type in two numbers", calculator.getNumber1Input());
-//    }
+    public void testCalculateResultAdd() {
+        Calculator calculator = new Calculator();
+        double result = calculator.calculateResult(5, 2, "add");
+        assertEquals(7, result);
+    }
 
+    @Test
+    public void testCalculateResultSubtract() {
+        Calculator calculator = new Calculator();
+        double result = calculator.calculateResult(10, 7, "subtract");
+        assertEquals(3, result);
+    }
 
+    @Test
+    public void testCalculateResultMultiply() {
+        Calculator calculator = new Calculator();
+        double result = calculator.calculateResult(4, 3, "multiply");
+        assertEquals(12, result);
+    }
+
+    @Test
+    public void testCalculateResultDivide() {
+        Calculator calculator = new Calculator();
+        double result = calculator.calculateResult(27, 9, "divide");
+        assertEquals(3, result);
+    }
+
+    @Test
+    public void testCalculateResultError() {
+        Calculator calculator = new Calculator();
+        double result = calculator.calculateResult(36, 24, "addition");
+        String output = "That operator was not in the correct format";
+        assertEquals(output, outputStreamCaptor.toString().trim());
+    }
 }
