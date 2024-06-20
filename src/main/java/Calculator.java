@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-
-
 public class Calculator {
     public static void main(String[] args) {//add unit tests for main
         outputIntro();
@@ -22,6 +20,7 @@ public class Calculator {
     public static void outputIntro() {
         System.out.println("Welcome to Java Calculator! I will ask you for two numbers and an operator and then perform the calculation.");
     }
+
     public static double calculateResult(double input1, double input2, String operator) {
         double result = 0;
 
